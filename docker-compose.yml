@@ -1,0 +1,27 @@
+version: '2'
+services:
+  app:
+    container_name: app
+    environment:
+      SERVER_NAME: mongodb
+      DATABASE_NAME: products_db
+      REDIS_DB: redis:6379
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - mongodb
+      - redis
+    ports:
+      - 3000:3000
+
+  mongodb:
+    container_name: mongo
+    image: mongo:latest
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+  redis:
+    image: redis
+
